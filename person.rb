@@ -10,7 +10,11 @@ class Person
   end
 
   def name=(new_name)
-    @age = new_name
+    @name = new_name
+  end
+
+  def age=(new_age)
+    @age = new_age
   end
 
   def can_use_services?
