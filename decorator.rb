@@ -2,6 +2,7 @@ require_relative 'nameable'
 
 class Decorator < Nameable
   def initialize(nameable)
+    super()
     @nameable = nameable
   end
 
@@ -18,6 +19,6 @@ end
 
 class TrimmerDecorator < Decorator
   def correct_name
-    @nameable.correct_name[0...10]
+    super.strip
   end
 end
