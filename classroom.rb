@@ -1,5 +1,5 @@
 class Classroom
-  attr_accessor :label
+  attr_accessor :label, :students
 
   def initialize(label)
     @label = label
@@ -18,5 +18,9 @@ class Student < Person
   def initialize(age, parent_permission: true, name: 'Unknown')
     super(age, parent_permission: parent_permission, name: name)
     @classroom = nil
+  end
+
+  def belongs_to_classroom?(classroom)
+    @classroom == classroom
   end
 end

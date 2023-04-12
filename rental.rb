@@ -28,4 +28,8 @@ class Person
     @age = age
     @rentals = []
   end
+
+  def rent_book(book, date)
+    Rental.new(book, self, date)
+  end
 end
