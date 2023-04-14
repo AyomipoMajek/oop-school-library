@@ -1,4 +1,7 @@
 require_relative 'app'
+require_relative 'book'
+require_relative 'person'
+require_relative 'rental'
 
 def display_menu
   puts 'What would you like to do?'
