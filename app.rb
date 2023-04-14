@@ -14,14 +14,14 @@ class App
   # Method to list all books
   def list_books
     @books.each do |book|
-      puts "#{book.title} by #{book.author}"
+      puts "Title: #{book.title}, Author: #{book.author}"
     end
   end
 
   # Method to list all people
   def list_people
     @people.each do |person|
-      puts "#{person.name} (#{person.class})"
+      puts "[#{person.class}] ID: #{person.id}, Name: #{person.name}, Age: #{person.age}"
     end
   end
 
@@ -36,7 +36,7 @@ class App
     if type == '1'
       puts 'Enter grade:'
       grade = gets.chomp
-      @people << Student.new(name, age, grade)
+      @people << Student.new(age, name, grade)
     elsif type == '2'
       puts 'Enter specialization:'
       specialization = gets.chomp
@@ -44,6 +44,7 @@ class App
     else
       puts 'Invalid type. Please enter 1 or 2.'
     end
+    puts 'Person created successfully!'
   end
 
   # Method to create a book
@@ -53,6 +54,7 @@ class App
     puts 'Enter author:'
     author = gets.chomp
     @books << Book.new(title, author)
+    puts 'Book created successfully'
   end
 
   # Method to create a rental
@@ -75,9 +77,8 @@ class App
 
     puts 'Enter date rented (yyyy-mm-dd):'
     rented_at = gets.chomp
-    puts 'Enter date due (yyyy-mm-dd):'
-    due_date = gets.chomp
-    @rentals << Rental.new(person, book, rented_at, due_date)
+    @rentals << Rental.new(book, person, rented_at)
+    puts 'Rental created successfully'
   end
 
   # Method to list all rentals for a given person id
@@ -97,7 +98,7 @@ class App
     end
 
     rentals.each do |rental|
-      puts "#{rental.book.title} rented on #{rental.rented_at} due on #{rental.due_date}."
+      puts "#{rental.book.title} rented on #{rental.date}."
     end
   end
 end
