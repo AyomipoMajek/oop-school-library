@@ -4,6 +4,7 @@ require_relative 'person'
 require_relative 'rental'
 
 def display_menu
+  puts 'Welcome to School Library App!'
   puts 'What would you like to do?'
   puts '1. List all books'
   puts '2. List all people'
@@ -11,7 +12,7 @@ def display_menu
   puts '4. Create a book'
   puts '5. Create a rental'
   puts '6. List all rentals for a given person id'
-  puts '0. Quit'
+  puts '7. Quit'
 end
 
 def list_all_books(app)
@@ -31,14 +32,14 @@ def create_person(app)
   name = gets.chomp
   puts "Enter the person's age:"
   age = gets.chomp.to_i
-  puts "Enter the person's type (student or teacher):"
+  puts 'Do you want to create a student (1) or a teacher (2):'
   type = gets.chomp.downcase
-  if type == 'student'
+  if type == '1'
     puts "Enter the student's grade level:"
     grade_level = gets.chomp
     app.create_student(name, age, grade_level)
     puts 'Student created successfully'
-  elsif type == 'teacher'
+  elsif type == '2'
     puts "Enter the teacher's specialty:"
     specialty = gets.chomp
     app.create_teacher(name, age, specialty)
@@ -53,9 +54,7 @@ def create_book(app)
   title = gets.chomp
   puts 'Enter the book author:'
   author = gets.chomp
-  puts 'Enter the book isbn:'
-  isbn = gets.chomp
-  app.create_book(title, author, isbn)
+  app.create_book(title, author)
   puts 'Book created successfully'
 end
 
@@ -80,22 +79,21 @@ def list_rentals_for_person(app)
 end
 
 def main
-  app = App.new
+  @app = App.new
 
   loop do
     display_menu
     choice = gets.chomp.to_i
 
     case choice
-    when 1 then list_all_books(app)
-    when 2 then list_all_people(app)
-    when 3 then create_person(app)
-    when 4 then create_book(app)
-    when 5 then create_rental(app)
-    when 6 then list_rentals_for_person(app)
-    else break
+    when 1 then @app.list_books
+    when 2 then @app.list_people
+    when 3 then @app.create_person
+    when 4 then @app.create_book
+    when 5 then @app.create_rental
+    when 6 then @app.list_rentals_for_person
+    else break puts 'Thank you for using this app'
     end
-
     puts
   end
 end

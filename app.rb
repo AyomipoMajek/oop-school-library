@@ -25,18 +25,18 @@ class App
     name = gets.chomp
     puts 'Enter age:'
     age = gets.chomp.to_i
-    puts 'Enter student (s) or teacher (t):'
+    puts 'Enter student (1) or teacher (2):'
     type = gets.chomp.downcase
-    if type == 's'
+    if type == '1'
       puts 'Enter grade:'
       grade = gets.chomp
       @people << Student.new(name, age, grade)
-    elsif type == 't'
+    elsif type == '2'
       puts 'Enter specialization:'
       specialization = gets.chomp
       @people << Teacher.new(name, age, specialization)
     else
-      puts 'Invalid type. Please enter s or t.'
+      puts 'Invalid type. Please enter 1 or 2.'
     end
   end
 
