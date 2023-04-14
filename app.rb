@@ -1,3 +1,9 @@
+require './book'
+require './person'
+require './rental'
+require './teacher'
+require './student'
+
 class App
   def initialize
     @books = []
@@ -34,7 +40,7 @@ class App
     elsif type == '2'
       puts 'Enter specialization:'
       specialization = gets.chomp
-      @people << Teacher.new(name, age, specialization)
+      @people << Teacher.new(age, specialization, name)
     else
       puts 'Invalid type. Please enter 1 or 2.'
     end
