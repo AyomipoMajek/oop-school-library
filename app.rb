@@ -99,7 +99,7 @@ class App
     end
   end
 
-  #Method to save data to JSON file
+  # Method to save data to JSON file
   def save_data
     data = {
       books: @books.map(&:to_hash),
@@ -112,7 +112,7 @@ class App
 
   private
 
-  #Method to load data from JSON file
+  # Method to load data from JSON file
   def load_data
     filename = 'data.json'
     return puts("Data file #{filename} not found. Starting with empty data.") unless File.exist?(filename)
