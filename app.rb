@@ -3,12 +3,14 @@ require './person'
 require './rental'
 require './teacher'
 require './student'
+require 'json'
 
 class App
   def initialize
     @books = []
     @people = []
     @rentals = []
+    load_data
   end
 
   # Method to list all books
@@ -91,14 +93,47 @@ class App
       return
     end
 
-    rentals = @rentals.select { |r| r.person == person }
-    if rentals.empty?
-      puts "No rentals found for #{person.name}."
-      return
-    end
-
+    rentals = @rentals.select { |r| r.person.id == person_id }
     rentals.each do |rental|
-      puts "#{rental.book.title} rented on #{rental.date}."
+      puts "Book Title: #{rental.book.title}, Author: #{rental.book.author}, Date Rented: #{rental.rented_at}"
     end
+  end
+
+  #Method to save data to JSON file
+  def save_data
+    data = {
+      books: @books.map(&:to_hash),
+      people: @people.map(&:to_hash),
+      rentals: @rentals.map(&:to_hash)
+    }
+    File.write('data.json', JSON.pretty_generate(data))
+    puts 'Data saved to data.json'
+  end
+
+  private
+
+  #Method to load data from JSON file
+  def load_data
+    filename = 'data.json'
+    return puts("Data file #{filename} not found. Starting with empty data.") unless File.exist?(filename)
+
+    data = JSON.parse(File.read(filename), symbolize_names: true)
+    @books = data[:books].map { |b| Book.new(b[:title], b[:author], b[:id]) }
+    @people = data[:people].map { |p| create_person_from_data(p) }
+    @rentals = data[:rentals].map { |r| create_rental_from_data(r) }
+    puts "Data loaded successfully from #{filename}."
+  end
+
+  def create_person_from_data(data)
+    case data[:type]
+    when 'student' then Student.new(data[:age], data[:name], data[:grade], data[:id])
+    when 'teacher' then Teacher.new(data[:age], data[:specialization], data[:name], data[:id])
+    end
+  end
+
+  def create_rental_from_data(data)
+    book = @books.find { |b| b.id == data[:book_id] }
+    person = @people.find { |p| p.id == data[:person_id] }
+    Rental.new(book, person, data[:rented_at])
   end
 end

@@ -1,7 +1,8 @@
 require './app'
 
+puts 'Welcome to School Library App!'
+
 def display_menu
-  puts 'Welcome to School Library App!'
   puts 'What would you like to do?'
   puts '1. List all books'
   puts '2. List all people'
