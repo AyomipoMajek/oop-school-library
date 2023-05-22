@@ -1,8 +1,8 @@
 require_relative 'person'
 
 class Student < Person
-  def initialize(age, name = 'unknown', grade = 'unknown')
-    super(age, name)
+  def initialize(age, name = 'unknown', grade = 'unknown', parent_permission: true)
+    super(age, name, parent_permission)
     @grade = grade
   end
 
