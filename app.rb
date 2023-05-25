@@ -27,24 +27,54 @@ class App
 
   # Method to create a person
   def create_person
-    puts 'Enter name:'
-    name = gets.chomp
-    puts 'Enter age:'
-    age = gets.chomp.to_i
-    puts 'Enter student (1) or teacher (2):'
-    type = gets.chomp.downcase
-    if type == '1'
-      puts 'Enter grade:'
-      grade = gets.chomp
-      @people << Student.new(age, name, grade)
-    elsif type == '2'
-      puts 'Enter specialization:'
-      specialization = gets.chomp
-      @people << Teacher.new(age, specialization, name)
+    print 'Do you want to create (1) a student or (2) a teacher? [Input the number]: '
+    num_input = gets.chomp.to_i
+    person_option(num_input)
+  end
+
+  def person_option(num_input)
+    case num_input
+    when 1
+      create_student
+    when 2
+      create_teacher
     else
-      puts 'Invalid type. Please enter 1 or 2.'
+      puts 'Invalid Entry'
     end
-    puts 'Person created successfully!'
+  end
+
+  def create_student
+    print 'Age: '
+    age = gets.chomp
+
+    print 'Name: '
+    name = gets.chomp.split.map(&:capitalize).join(' ')
+
+    print 'Classroom: '
+    classroom = gets.chomp.upcase
+
+    print 'Has parent\'s permission? [Y/N]: '
+    parent_permission = gets.chomp.downcase == 'y'
+
+    student = Student.new(classroom, age, name, parent_permission)
+    @people << student
+    puts
+    puts 'Student created successfully'
+  end
+
+  def create_teacher
+    print 'Age: '
+    age = gets.chomp
+
+    print 'Name: '
+    name = gets.chomp.split.map(&:capitalize).join(' ')
+
+    print 'Specialization: '
+    specialization = gets.chomp.split.map(&:capitalize).join(' ')
+    teacher_item = Teacher.new(age, specialization, name)
+    @people << teacher_item
+    puts
+    puts 'Teacher created successfully'
   end
 
   # Method to create a book
@@ -59,21 +89,19 @@ class App
 
   # Method to create a rental
   def create_rental
-    puts 'Enter person id:'
+    puts 'Select a person by ID:'
+    list_people
+    print 'Person ID: '
     person_id = gets.chomp.to_i
     person = @people.find { |p| p.id == person_id }
-    if person.nil?
-      puts 'Person not found.'
-      return
-    end
+    puts 'Person not found.' if person.nil?
 
-    puts 'Enter book title:'
+    puts 'Select a book by title:'
+    list_books
+    print 'Book Title: '
     book_title = gets.chomp
     book = @books.find { |b| b.title == book_title }
-    if book.nil?
-      puts 'Book not found.'
-      return
-    end
+    return puts 'Book not found.' if book.nil?
 
     puts 'Enter date rented (yyyy-mm-dd):'
     rented_at = gets.chomp
@@ -83,6 +111,7 @@ class App
 
   # Method to list all rentals for a given person id
   def list_rentals_for_person
+    list_people
     puts 'Enter person id:'
     person_id = gets.chomp.to_i
     person = @people.find { |p| p.id == person_id }
